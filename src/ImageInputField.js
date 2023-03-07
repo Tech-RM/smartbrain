@@ -1,4 +1,3 @@
-import {Component} from 'react';
 
 const ImageInputField=({onChange, onButtonSubmit})=>{
     return(

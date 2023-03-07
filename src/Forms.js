@@ -1,4 +1,3 @@
-import { Component } from "react";
 import SignInForm from "./SignInForm";
 import RegisterForm from "./RegisterForm";
 
