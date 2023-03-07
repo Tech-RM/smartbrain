@@ -21,7 +21,7 @@ class RegisterForm extends Component{
     }
     
     registerFunction=()=>{
-        fetch('http://localhost:3001/register',{
+        fetch('https://smartbrainapi-jrj1.onrender.com/register',{
             method:'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
