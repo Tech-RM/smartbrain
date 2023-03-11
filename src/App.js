@@ -53,11 +53,10 @@ loadUser=(data)=>{
     box:{}});
   }
   calculateFaceLocation=(data)=>{
-    console.log(data);
     const inputImage=document.getElementById('inputImage');
     const width=Number(inputImage.width);
     const height=Number(inputImage.height);
-    console.log(width,height)
+    
     return {
       leftCol : data.left_col*width,
       topRow : data.top_row*height,
