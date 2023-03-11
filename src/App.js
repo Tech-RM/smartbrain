@@ -1,16 +1,11 @@
 import React , {Component} from 'react';
-import Logo from './Logo';
-import Navigation from './Navigation';
-import RankDisplay from './RankDisplay';
-import ImageInputField from './ImageInputField';
-import PhotoDisplay from './PhotoDisplay';
-import Forms from './Forms';
-// import Clarifai from 'clarifai';
+import Logo from './Components/Logo/Logo';
+import Navigation from './Components/Navigation';
+import RankDisplay from './Components/RankDisplay';
+import ImageInputField from './Components/ImageInputField';
+import PhotoDisplay from './Components/PhotoDisplay';
+import Forms from './Components/Forms/Forms';
 
-
-// const app=new Clarifai.App({
-//   apiKey:''
-// })
 
 const initialState={
   imageUrl:'',
@@ -21,7 +16,8 @@ const initialState={
         name:'',
         eamil:'',
         entries:'',
-      }
+      },
+      box:{}
 }
 
 class App extends Component{
@@ -36,7 +32,8 @@ class App extends Component{
         name:'',
         eamil:'',
         entries:'',
-      }
+      },
+      box:{}
     }
   }
 
@@ -51,21 +48,44 @@ loadUser=(data)=>{
 
 
   onInputChange=(e)=>{
-    this.setState({imageUrl:e.target.value})
+    this.setState({
+      imageUrl:e.target.value,
+    box:{}});
+  }
+  calculateFaceLocation=(data)=>{
+    console.log(data);
+    const inputImage=document.getElementById('inputImage');
+    const width=Number(inputImage.width);
+    const height=Number(inputImage.height);
+    return {
+      leftCol : data.left_col*width,
+      topRow : data.top_row*height,
+      rightCol : width-data.right_col*width,
+      bottomRow : data.bottom_row*height
+    }
+
+  }
+
+  displayBoundingBox=(dataOfLines)=>{
+    this.setState({box:dataOfLines});
+
   }
 
 
   onButtonSubmit=()=>{
-    fetch('https://smartbrainapi-jrj1.onrender.com/image',{
+    fetch('http://localhost:3001/image',{
       method:'put',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        id:this.state.user.id
+        id:this.state.user.id,
+        url:this.state.imageUrl
       })
     }).then(response=>response.json())
     .then(data=>{
-      let user = {...this.state.user, entries: data[0].entries};
-        this.setState({user});
+      this.displayBoundingBox(this.calculateFaceLocation(data));
+      // let user = {...this.state.user, entries: data[0].entries};
+      //   this.setState({user});
+        console.log(data);
 
     })
   }
@@ -95,7 +115,7 @@ loadUser=(data)=>{
         <Logo />
         <RankDisplay name={this.state.user.name} entries={this.state.user.entries}/>
         <ImageInputField onChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-        <PhotoDisplay imageUrl={this.state.imageUrl}/>
+        <PhotoDisplay box={this.state.box} imageUrl={this.state.imageUrl}/>
       </div>
       :
       this.state.route==='home'?
