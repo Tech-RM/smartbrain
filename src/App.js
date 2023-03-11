@@ -73,7 +73,7 @@ loadUser=(data)=>{
 
 
   onButtonSubmit=()=>{
-    fetch('http://localhost:3001/image',{
+    fetch('https://smartbrainapi-jrj1.onrender.com/image',{
       method:'put',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
