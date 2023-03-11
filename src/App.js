@@ -82,7 +82,7 @@ loadUser=(data)=>{
       })
     }).then(response=>response.json())
     .then(data=>{
-      this.displayBoundingBox(this.calculateFaceLocation(data));
+      // this.displayBoundingBox(this.calculateFaceLocation(data));
       // let user = {...this.state.user, entries: data[0].entries};
       //   this.setState({user});
         console.log(data);
