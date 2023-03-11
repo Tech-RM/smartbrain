@@ -57,11 +57,12 @@ loadUser=(data)=>{
     const inputImage=document.getElementById('inputImage');
     const width=Number(inputImage.width);
     const height=Number(inputImage.height);
+    console.log(width,height)
     return {
       leftCol : data.left_col*width,
       topRow : data.top_row*height,
       rightCol : width-data.right_col*width,
-      bottomRow : data.bottom_row*height
+      bottomRow : height-data.bottom_row*height
     }
 
   }
@@ -82,11 +83,9 @@ loadUser=(data)=>{
       })
     }).then(response=>response.json())
     .then(data=>{
-      // this.displayBoundingBox(this.calculateFaceLocation(data));
-      // let user = {...this.state.user, entries: data[0].entries};
-      //   this.setState({user});
-        console.log(data);
-
+      this.displayBoundingBox(this.calculateFaceLocation(data));
+      let user = {...this.state.user, entries: data.entries};
+        this.setState({user});
     })
   }
 
@@ -105,7 +104,7 @@ loadUser=(data)=>{
 
 
   render(){
-    console.log(this.state);
+  
     return (this.state.isSignedIn?
       <div>
         <Navigation 
